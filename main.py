@@ -225,17 +225,70 @@ class OpeningWindow(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        # Configure the root window
-        self.title("Political Compass Test 2021")
-        self.geometry('500x500')
+        # configure the root window
+        self.title('Political Compass Test 2021')
+        self.geometry('5000x500')
+        self.configure(bg="green")
 
-        # label
-        self.label = ttk.Label(self, text='Hello, Tkinter!')
-        self.label.pack()
+        # labels
+        self.welcomeLabel1 = ttk.Label(self, text='Welcome to the Political Compass Test for 2021')
+        self.welcomeLabel1.pack()
+        self.welcomeLabel2 = ttk.Label(self,text='This test is a new and improved version of the popular political compass test which has become the subject of a lot of memes')
+        self.welcomeLabel2.pack()
 
 
+        # button
+        self.button = ttk.Button(self, text='Click Me')
+        self.button['command'] = self.button_clicked
+        self.button.pack()
+
+    def button_clicked(self):
+        print("Button clicked")
+        self.destroy()
+        app = QuestionWindow()
+
+
+
+class QuestionWindow(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        # configure the question window
+        self.title('Questions')
+        self.geometry('5000x500')
+        self.configure(bg="blue")
+
+        # labels
+        self.questionLabel = ttk.Label(self,text="Question #: ....")
+        self.questionLabel.pack()
+
+        # checkboxes
+        self.option1 = ttk.Checkbutton(self,text="Strongly Agree")
+        self.option2 = ttk.Checkbutton(self,text="Moderately Agree")
+        self.option3 = ttk.Checkbutton(self,text="Moderately Disagree")
+        self.option4 = ttk.Checkbutton(self,text="Strongly Disagree")
+        self.option1.pack()
+        self.option2.pack()
+        self.option3.pack()
+        self.option4.pack()
+
+        # button
+        self.button = ttk.Button(self, text='Next question')
+        self.button.pack()
+
+
+class LastQuestionWindow(tk.Tk):
+    # Should inherit or extend the QuestionWindow class
+    pass # On the last question, the command should take it to the results page
+
+class ResultsWindow(tk.Tk):
+    pass # fill this in once the question windows are sorted out
+    # Should display the compass, scales to show the different results and a button to export the results
+    # to a .txt file
 
 
 if __name__ == "__main__":
     app = OpeningWindow()
     app.mainloop()
+
+    # Do some for-loop for the number of questions
