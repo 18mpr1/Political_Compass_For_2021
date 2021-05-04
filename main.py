@@ -2,7 +2,17 @@
 # Political Compass for 2021
 
 import tkinter as tk
+from tkinter import ttk
+#from tkinter.messagebox import showinfo
 
+class Points:
+    pass
+
+class Questions(Points): # extends Points
+    pass
+
+# Organize this stuff into a class called Questions (functions too)
+# Maybe organize questions and points into an array for organization -- not a huge deal yet
 def Auth(ans):
     if ans == 'a':
         return 3
@@ -208,7 +218,7 @@ def EconAxis():
     q = Left(input())
     Score += q
     R = "Affordable housing programs to little except destroy property values"
-    print(R)
+    print(N)
     n = Right(input())
     Score += n
     S = "A federal jobs initiative is an excellent remedy to economic downturns"
@@ -220,6 +230,7 @@ def EconAxis():
     t = Left(input())
     Score += t
     print(Score)
+
 
 class OpeningWindow(tk.Tk):
     def __init__(self):
@@ -238,12 +249,12 @@ class OpeningWindow(tk.Tk):
 
 
         # button
-        self.button = ttk.Button(self, text='Click Me')
+        self.button = ttk.Button(self, text='Start test')
         self.button['command'] = self.button_clicked
         self.button.pack()
 
     def button_clicked(self):
-        print("Button clicked")
+        print("Starting the quiz")
         self.destroy()
         app = QuestionWindow()
 
@@ -253,33 +264,67 @@ class QuestionWindow(tk.Tk):
     def __init__(self):
         super().__init__()
 
+
         # configure the question window
         self.title('Questions')
         self.geometry('5000x500')
         self.configure(bg="blue")
 
+
+
         # labels
         self.questionLabel = ttk.Label(self,text="Question #: ....")
         self.questionLabel.pack()
 
-        # checkboxes
-        self.option1 = ttk.Checkbutton(self,text="Strongly Agree")
-        self.option2 = ttk.Checkbutton(self,text="Moderately Agree")
-        self.option3 = ttk.Checkbutton(self,text="Moderately Disagree")
-        self.option4 = ttk.Checkbutton(self,text="Strongly Disagree")
-        self.option1.pack()
-        self.option2.pack()
-        self.option3.pack()
-        self.option4.pack()
 
-        # button
-        self.button = ttk.Button(self, text='Next question')
-        self.button.pack()
+        def stronglyAgree_onClick():
+            print("Strongly Agree clicked")
+            return True
 
 
-class LastQuestionWindow(tk.Tk):
+        def moderatelyAgree_onClick():
+            print("Moderately Agree clicked")
+            return True
+
+        def moderatelyDisagree_onClick():
+            print("Moderately Disagree clicked")
+            return True
+
+        def stronglyDisagree_onClick():
+            print("Strongly Disagree clicked")
+            return True
+
+
+        # Option buttons
+        self.stronglyAgree = ttk.Button(self,text="Strongly Agree",command=stronglyAgree_onClick).pack()
+        self.moderatelyAgree = ttk.Button(self,text="Moderately Agree",command=moderatelyAgree_onClick).pack()
+        self.moderatelyDisagree = ttk.Button(self,text="Moderately Disagree",command=moderatelyDisagree_onClick).pack()
+        self.stronglyDisagree = ttk.Button(self,text="Strongly Disagree",command=stronglyDisagree_onClick).pack()
+
+
+        def nextButtonClicked():
+            print("Next button clicked")
+            self.destroy()
+            # go to the last question case
+            app = LastQuestionWindow()
+
+
+
+
+        # Next Question button
+        self.nextButton = ttk.Button(self, text='Next question',command=nextButtonClicked).pack()
+
+
+
+
+
+
+class LastQuestionWindow(QuestionWindow):
+    pass
+
+
     # Should inherit or extend the QuestionWindow class
-    pass # On the last question, the command should take it to the results page
+    #pass # On the last question, the command should take it to the results page
 
 class ResultsWindow(tk.Tk):
     pass # fill this in once the question windows are sorted out
