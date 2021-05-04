@@ -3,233 +3,43 @@
 
 import tkinter as tk
 from tkinter import ttk
-#from tkinter.messagebox import showinfo
 
-class Points:
-    pass
-
-class Questions(Points): # extends Points
-    pass
-
-# Organize this stuff into a class called Questions (functions too)
-# Maybe organize questions and points into an array for organization -- not a huge deal yet
-def Auth(ans):
-    if ans == 'a':
-        return 3
-    if ans == 'b':
-        return 2
-    if ans == 'c':
-        return -1
-    if ans == 'd':
-        return -2
+# from tkinter.messagebox import showinfo
 
 
-def Lib(ans):
-    if ans == 'd':
-        return 3
-    if ans == 'c':
-        return 2
-    if ans == 'b':
-        return -1
-    if ans == 'a':
-        return -2
+Negative = -1
+Positive = +1
 
 
-def Left(ans):
-    if ans == 'd':
-        return 2
-    if ans == 'c':
-        return 1
-    if ans == 'b':
-        return -1
-    if ans == 'a':
-        return -2
+class Question:
+    def __init__(self, number, text, axis, polarity):
+        self.text = text
+        self.number = number
+        self.axis = axis
+        self.polarity = polarity
+
+    def getNumber(self):
+        return self.number
+
+    def getText(self):
+        return self.text
+
+    def getAxis(self):
+        return self.axis
+
+    def getPolarity(self):
+        return self.polarity
 
 
-def Right(ans):
-    if ans == 'a':
-        return 2
-    if ans == 'b':
-        return 1
-    if ans == 'c':
-        return -1
-    if ans == 'd':
-        return -2
+Q1 = Question(1, "Citizens of a nation should hold the right to bear arms", "state", Negative)
 
+Q2 = Question(2, "Recreational drugs and alcohol should be decriminalized", "state", Negative)
 
-def Socialism(ans):
-    if ans == 'a':
-        return -7
-    if ans == 'b':
-        return -4
-    if ans == 'c':
-        return 1
-    if ans == 'd':
-        return 2
+Q3 = Question(3,
+              "My government should restrict immigration or miscegenation to preserve the cultural character of my nation",
+              "state", Positive)
 
-
-def McPolice(ans):
-    if ans == 'a':
-        return 7
-    if ans == 'b':
-        return 4
-    if ans == 'c':
-        return -1
-    if ans == 'd':
-        return -2
-
-
-def StateAxis():
-    Score = 0
-    A = "Citizens of a nation should hold the right to bear arms"
-    print(A)
-    a = Lib(input())
-    Score += a
-    B = "Recreational drugs and alcohol should be decriminalized"
-    print(B)
-    b = Lib(input())
-    Score += b
-    C = "My government should restrict immigration or miscegenation to preserve the cultural character of my nation"
-    print(C)
-    c = Auth(input())
-    Score += c
-    D = "Mask mandates and lockdowns are needed to prevent the spread of disease"
-    print(D)
-    d = Auth(input())
-    Score += d
-    E = "To become a truly free country, police departments need to be reformed or demilitarized"
-    print(E)
-    e = Lib(input())
-    Score += e
-    F = "Transgenderism should be treated as a mental illness"
-    print(F)
-    f = Auth(input())
-    Score += f
-    G = "Meat and dairy products need to be limited to combat the climate emergency"
-    print(G)
-    g = Auth(input())
-    Score += g
-    H = "Sometimes violence is unavoidable in advancing the interests of my political cause"
-    print(H)
-    h = Auth(input())
-    Score += h
-    I = "I believe in freedom of speech even for those who’s views I despise most"
-    print(I)
-    i = Lib(input())
-    Score += i
-    J = "The primary aim of the justice system is protection of the innocent, not rehabilitation of the guilty"
-    print(J)
-    j = Auth(input())
-    Score += j
-    K = "Government has no business in the bedrooms of the nation"
-    print(K)
-    k = Lib(input())
-    Score += k
-    L = "Religious practices should be taught in school and enforced by the state"
-    print(L)
-    l = Auth(input())
-    Score += l
-    M = "Every company should be required to have at least one woman on its board"
-    print(M)
-    m = Auth(input())
-    Score += m
-    N = "Sexwork should be bought and sold as a commodity"
-    print(N)
-    m = Lib(input())
-    O = "Security from criminals and terrorists is more precious than personal privacy"
-    print(O)
-    o = Auth(input())
-    Score += o
-    P = "A baker has no obligation to make a cake for a gay wedding"
-    print(P)
-    p = Lib(input())
-    Score += p
-    print(Score)
-
-
-def EconAxis():
-    Score = 0
-    A = "Nuclear power is a safe, viable source of energy"
-    print(A)
-    a = Right(input())
-    Score += a
-    B = "Increasing regulations on fossil fuels will have ambiguous benefits and cripple the economy"
-    print(B)
-    b = Right(input())
-    Score += b
-    C = "The industrial revolution and it’s consequences have been a disaster for the human race"
-    print(C)
-    c = Left(input())
-    Score += c
-    D = "Single payer healthcare is preferable to a privatized system"
-    print(D)
-    d = Left(input())
-    Score += d
-    E = "Free trade and globalization have been our greatest allies in alleviating poverty"
-    print(E)
-    e = Right(input())
-    Score += e
-    F = "A state-planned economy cannot scale to the efficiency or complexity of the free market"
-    print(F)
-    f = Right(input())
-    Score += f
-    G = "Deficit spending is necessary to rebuild our crumbling public infrastructure"
-    print(G)
-    g = Left(input())
-    Score += g
-    H = "Water should be a public resource that anyone can access freely"
-    print(H)
-    h = Left(input())
-    Score += h
-    I = "Education would be much more effective if school choice was left to the parents"
-    print(I)
-    i = Right(input())
-    Score += i
-    J = "We lose more in taxes than government could ever give back"
-    print(J)
-    j = Right(input())
-    Score += j
-    K = "Industry should be owned and controlled by labour unions"
-    print(K)
-    k = Socialism(input())
-    Score += k
-    L = "Raising the minimum wage will not help the working class"
-    print(L)
-    l = Right(input())
-    Score += l
-    M = "Helping the unemployed is of greater urgency than slowing down inflation"
-    print(M)
-    m = Left(input())
-    Score += m
-    N = "Precious metals and cryptocurrencies are more trustworthy than federal banking systems"
-    print(N)
-    n = Right(input())
-    Score += n
-    O = "I support regulations enforcing net neutrality"
-    print(O)
-    o = Left(input())
-    Score += o
-    P = "The military,courts and police could be replaced with voluntary legal agreements and private protection agencies"
-    print(P)
-    p = McPolice(input())
-    Score += p
-    Q = "It’s a tragedy that art and culture are commodified and cheapened by the capitalist system"
-    print(Q)
-    q = Left(input())
-    Score += q
-    R = "Affordable housing programs to little except destroy property values"
-    print(N)
-    n = Right(input())
-    Score += n
-    S = "A federal jobs initiative is an excellent remedy to economic downturns"
-    print(S)
-    s = Left(input())
-    Score += s
-    T = "Prosperity without equality is an injustice"
-    print(T)
-    t = Left(input())
-    Score += t
-    print(Score)
+Sample = [Q1, Q2, Q3]
 
 
 class OpeningWindow(tk.Tk):
@@ -244,9 +54,9 @@ class OpeningWindow(tk.Tk):
         # labels
         self.welcomeLabel1 = ttk.Label(self, text='Welcome to the Political Compass Test for 2021')
         self.welcomeLabel1.pack()
-        self.welcomeLabel2 = ttk.Label(self,text='This test is a new and improved version of the popular political compass test which has become the subject of a lot of memes')
+        self.welcomeLabel2 = ttk.Label(self,
+                                       text='This test is a new and improved version of the popular political compass test which has become the subject of a lot of memes')
         self.welcomeLabel2.pack()
-
 
         # button
         self.button = ttk.Button(self, text='Start test')
@@ -259,81 +69,80 @@ class OpeningWindow(tk.Tk):
         app = QuestionWindow()
 
 
-
 class QuestionWindow(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        index = 0
 
         # configure the question window
         self.title('Questions')
         self.geometry('5000x500')
         self.configure(bg="blue")
 
-
-
         # labels
-        self.questionLabel = ttk.Label(self,text="Question #: ....")
+        self.questionLabel = ttk.Label(self, text=Sample[index].getText())
         self.questionLabel.pack()
-
 
         def stronglyAgree_onClick():
             print("Strongly Agree clicked")
-            return True
+            self.destroy()
+            app = LastQuestionWindow()
 
 
         def moderatelyAgree_onClick():
             print("Moderately Agree clicked")
-            return True
+            self.destroy()
+            app = LastQuestionWindow()
 
         def moderatelyDisagree_onClick():
             print("Moderately Disagree clicked")
-            return True
+            self.destroy()
+            app = LastQuestionWindow()
 
         def stronglyDisagree_onClick():
             print("Strongly Disagree clicked")
-            return True
-
-
-        # Option buttons
-        self.stronglyAgree = ttk.Button(self,text="Strongly Agree",command=stronglyAgree_onClick).pack()
-        self.moderatelyAgree = ttk.Button(self,text="Moderately Agree",command=moderatelyAgree_onClick).pack()
-        self.moderatelyDisagree = ttk.Button(self,text="Moderately Disagree",command=moderatelyDisagree_onClick).pack()
-        self.stronglyDisagree = ttk.Button(self,text="Strongly Disagree",command=stronglyDisagree_onClick).pack()
-
-
-        def nextButtonClicked():
-            print("Next button clicked")
             self.destroy()
-            # go to the last question case
             app = LastQuestionWindow()
 
-
-
-
-        # Next Question button
-        self.nextButton = ttk.Button(self, text='Next question',command=nextButtonClicked).pack()
-
-
-
-
+        # Option buttons
+        self.stronglyAgree = ttk.Button(self, text="Strongly Agree", command=stronglyAgree_onClick).pack()
+        self.moderatelyAgree = ttk.Button(self, text="Moderately Agree", command=moderatelyAgree_onClick).pack()
+        self.moderatelyDisagree = ttk.Button(self, text="Moderately Disagree",
+                                             command=moderatelyDisagree_onClick).pack()
+        self.stronglyDisagree = ttk.Button(self, text="Strongly Disagree", command=stronglyDisagree_onClick).pack()
 
 
 class LastQuestionWindow(QuestionWindow):
     pass
 
-
     # Should inherit or extend the QuestionWindow class
-    #pass # On the last question, the command should take it to the results page
+    # On the last question, the command should take it to the results page
+
 
 class ResultsWindow(tk.Tk):
-    pass # fill this in once the question windows are sorted out
+    pass  # fill this in once the question windows are sorted out
     # Should display the compass, scales to show the different results and a button to export the results
     # to a .txt file
 
 
 if __name__ == "__main__":
+
+    # Test print
+    print("There are "+str(len(Sample))+" questions")
+    print("-------------------------------------")
+
+
+    for x in Sample:
+        print("Question number " + str(x.getNumber()))
+        print("The question is " + x.getText())
+        print("Its polarity is " + str(x.getPolarity()))
+        print("Its axis is " + x.getAxis())
+        print("-------------------------------------")
+
+
+
+
+
     app = OpeningWindow()
     app.mainloop()
-
-    # Do some for-loop for the number of questions
