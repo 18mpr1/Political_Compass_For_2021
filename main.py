@@ -5,11 +5,10 @@ import tkinter as tk
 from tkinter import ttk
 # from tkinter.messagebox import showinfo
 
-
+# Global Variables
 Negative = -1
 Positive = +1
 
-index = 0
 
 class Question:
     def __init__(self, number, text, axis, polarity):
@@ -17,6 +16,8 @@ class Question:
         self.number = number
         self.axis = axis
         self.polarity = polarity
+
+
 
     def getNumber(self):
         return self.number
@@ -29,6 +30,14 @@ class Question:
 
     def getPolarity(self):
         return self.polarity
+
+    def isPositive(self):
+        if(self.getPolarity()==Positive):
+            #print("Positive polarity")
+            return True
+        else:
+            #print("Negative polarity")
+            return False
 
 
 Q1 = Question(1, "Citizens of a nation should hold the right to bear arms", "state", Negative)
@@ -67,14 +76,20 @@ class OpeningWindow(tk.Tk):
         self.button.pack()
 
     def button_clicked(self):
-        print("Starting the quiz")
+        #print("Starting the quiz")
         self.destroy()
 
+class Score:
+    StateScore = 0
+    EconScore = 0
 
+    def printStateScore(self):
+        print("My current State Score is"+self.StateScore)
 
-class QuestionWindow(tk.Tk):
-    def __init__(self, myList):
+class QuestionWindow(tk.Tk,Question,Score):
+    def __init__(self, question):
         super().__init__()
+        self.question = question
 
 
         # configure the question window
@@ -84,24 +99,49 @@ class QuestionWindow(tk.Tk):
 
 
         # labels
-        self.questionLabel = ttk.Label(self, text=myList)
+        self.questionLabel = ttk.Label(self, text=question.getText())
         self.questionLabel.pack()
 
         def stronglyAgree_onClick():
-            print("Strongly Agree clicked")
+            #print("Strongly Agree clicked")
             self.destroy()
+            if(question.isPositive()==True):
+                Score.StateScore+=3
+                print("My current State Score is "+str(Score.StateScore))
+            else:
+                Score.StateScore+= -2
+                print("My current State Score is "+str(Score.StateScore))
 
         def moderatelyAgree_onClick():
-            print("Moderately Agree clicked")
+            #print("Moderately Agree clicked")
             self.destroy()
+            if (question.isPositive() == True):
+                Score.StateScore+=2
+                print("My current State Score is "+str(Score.StateScore))
+            else:
+                Score.StateScore+= -1
+                print("My current State Score is "+str(Score.StateScore))
 
         def moderatelyDisagree_onClick():
-            print("Moderately Disagree clicked")
+            #print("Moderately Disagree clicked")
             self.destroy()
+            if (question.isPositive() == True):
+                Score.StateScore+= -1
+                print("My current State Score is "+str(Score.StateScore))
+            else:
+                Score.StateScore += 2
+                print("My current State Score is "+str(Score.StateScore))
 
         def stronglyDisagree_onClick():
-            print("Strongly Disagree clicked")
+            #print("Strongly Disagree clicked")
             self.destroy()
+            if (question.isPositive() == True):
+                Score.StateScore += -2
+                print("My current State Score is "+str(Score.StateScore))
+            else:
+                Score.StateScore += 3
+                print("My current State Score is "+str(Score.StateScore))
+
 
         # Option buttons
         self.stronglyAgree = ttk.Button(self, text="Strongly Agree", command=stronglyAgree_onClick).pack()
@@ -109,6 +149,7 @@ class QuestionWindow(tk.Tk):
         self.moderatelyDisagree = ttk.Button(self, text="Moderately Disagree",
                                              command=moderatelyDisagree_onClick).pack()
         self.stronglyDisagree = ttk.Button(self, text="Strongly Disagree", command=stronglyDisagree_onClick).pack()
+
 
 
 class LastQuestionWindow(tk.Tk):
@@ -133,14 +174,14 @@ if __name__ == "__main__":
 
 
     # Test print
-    print("There are "+str(len(Sample))+" questions")
-    print("-------------------------------------")
-    for x in Sample:
-        print("Question number " + str(x.getNumber()))
-        print(x.getText())
-        print("Its polarity is " + str(x.getPolarity()))
-        print("Its axis is " + x.getAxis())
-        print("-------------------------------------")
+    #print("There are "+str(len(Sample))+" questions")
+    #print("-------------------------------------")
+    #for x in Sample:
+        #print("Question number " + str(x.getNumber()))
+        #print(x.getText())
+        #print("Its polarity is " + str(x.getPolarity()))
+        #print("Its axis is " + x.getAxis())
+        #print("-------------------------------------")
 
 
     start = OpeningWindow()
@@ -153,7 +194,7 @@ if __name__ == "__main__":
             app = LastQuestionWindow()
             app.mainloop()
         else:
-            print(i)
-            app = QuestionWindow(Sample[i].getText())
+            #print(i)
+            app = QuestionWindow(Sample[i])
             app.mainloop()
 
