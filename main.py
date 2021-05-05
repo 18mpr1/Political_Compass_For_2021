@@ -3,13 +3,13 @@
 
 import tkinter as tk
 from tkinter import ttk
-
 # from tkinter.messagebox import showinfo
 
 
 Negative = -1
 Positive = +1
 
+index = 0
 
 class Question:
     def __init__(self, number, text, axis, polarity):
@@ -39,7 +39,10 @@ Q3 = Question(3,
               "My government should restrict immigration or miscegenation to preserve the cultural character of my nation",
               "state", Positive)
 
-Sample = [Q1, Q2, Q3]
+Q4 = Question(4,"Mask mandates and lockdowns are needed to prevent the spread of disease", "state", Positive)
+
+
+Sample = [Q1, Q2, Q3, Q4]
 
 
 class OpeningWindow(tk.Tk):
@@ -66,44 +69,39 @@ class OpeningWindow(tk.Tk):
     def button_clicked(self):
         print("Starting the quiz")
         self.destroy()
-        app = QuestionWindow()
+
 
 
 class QuestionWindow(tk.Tk):
-    def __init__(self):
+    def __init__(self, myList):
         super().__init__()
 
-        index = 0
 
         # configure the question window
         self.title('Questions')
         self.geometry('5000x500')
         self.configure(bg="blue")
 
+
         # labels
-        self.questionLabel = ttk.Label(self, text=Sample[index].getText())
+        self.questionLabel = ttk.Label(self, text=myList)
         self.questionLabel.pack()
 
         def stronglyAgree_onClick():
             print("Strongly Agree clicked")
             self.destroy()
-            app = LastQuestionWindow()
-
 
         def moderatelyAgree_onClick():
             print("Moderately Agree clicked")
             self.destroy()
-            app = LastQuestionWindow()
 
         def moderatelyDisagree_onClick():
             print("Moderately Disagree clicked")
             self.destroy()
-            app = LastQuestionWindow()
 
         def stronglyDisagree_onClick():
             print("Strongly Disagree clicked")
             self.destroy()
-            app = LastQuestionWindow()
 
         # Option buttons
         self.stronglyAgree = ttk.Button(self, text="Strongly Agree", command=stronglyAgree_onClick).pack()
@@ -113,8 +111,13 @@ class QuestionWindow(tk.Tk):
         self.stronglyDisagree = ttk.Button(self, text="Strongly Disagree", command=stronglyDisagree_onClick).pack()
 
 
-class LastQuestionWindow(QuestionWindow):
-    pass
+class LastQuestionWindow(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.configure(bg="orange")
+        self.geometry('5000x500')
+        self.title("The quiz is now complete!")
+        self.finishQuizButton = ttk.Button(text="Finish quiz and see results").pack()
 
     # Should inherit or extend the QuestionWindow class
     # On the last question, the command should take it to the results page
@@ -128,21 +131,29 @@ class ResultsWindow(tk.Tk):
 
 if __name__ == "__main__":
 
+
     # Test print
     print("There are "+str(len(Sample))+" questions")
     print("-------------------------------------")
-
-
     for x in Sample:
         print("Question number " + str(x.getNumber()))
-        print("The question is " + x.getText())
+        print(x.getText())
         print("Its polarity is " + str(x.getPolarity()))
         print("Its axis is " + x.getAxis())
         print("-------------------------------------")
 
 
+    start = OpeningWindow()
+    start.mainloop()
 
+    for i in range(len(Sample)+1):
 
+        # Last question case
+        if (i == len(Sample)):
+            app = LastQuestionWindow()
+            app.mainloop()
+        else:
+            print(i)
+            app = QuestionWindow(Sample[i].getText())
+            app.mainloop()
 
-    app = OpeningWindow()
-    app.mainloop()
