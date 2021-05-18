@@ -1,22 +1,24 @@
 # Caleb Stanton and Matt Rieckenberg
-# Political Compass for 2021
+# Political Compass for 2021 version 1.0
 
+import os
 import tkinter as tk
-# from tkinter import *
-from tkinter import ttk, BOTH, Y, W, E, LEFT, RIGHT, BOTTOM, FLAT, RAISED
+from tkinter import ttk,RAISED, filedialog
 import datetime
 import sys
 from tkinter import PhotoImage, NW
-from PIL import Image, ImageTk
-from PIL import Image
-from PIL import ImageTk
+import string
+import random
 
 # Constants
 N = -1
 P = +1
 
-x = datetime.datetime.now()
+letters = string.ascii_letters
+userName = ''.join(random.choice(letters) for i in range(10))
+# print(userName)
 
+x = datetime.datetime.now()
 currentDate = x.strftime("%A") + ", " + x.strftime("%B") + " " + x.strftime("%d") + ", " + x.strftime("%Y")
 
 
@@ -43,12 +45,11 @@ class Question:
     def getPolarity(self):
         return self.polarity
 
-
-    #scoring methods
+    # scoring methods
 
     def setAnswer(self, a):
         self.answer = a
-        #print("Answer set to " + a)
+        # print("Answer set to " + a)
 
     def getAnswer(self):
         return self.answer
@@ -61,7 +62,7 @@ Q1 = Question(1, "Citizens of a nation should hold the right to bear arms", "sta
 Q2 = Question(2, "Recreational drugs and alcohol should be decriminalized", "state", N, "-")
 
 Q3 = Question(3,
-              "My government should restrict immigration or miscegenation to preserve the cultural character of my nation",
+              "My government should restrict immigration or miscegenation" +'\n'+"to preserve the cultural character of my nation",
               "state", P, "-")
 
 Q4 = Question(4, "Mask mandates and lockdowns are needed to prevent the spread of disease", "state", P, "-")
@@ -100,14 +101,14 @@ Q17 = Question(17, "Nuclear power is a safe, viable source of energy", "econ", P
 Q18 = Question(18, "Increasing regulations on fossil fuels will have ambiguous benefits and cripple the economy",
                "econ", P, "-")
 
-Q19 = Question(6, "The industrial revolution and it’s consequences have been a disaster for the human race", "econ", N,
+Q19 = Question(19, "The industrial revolution and it’s consequences have been a disaster for the human race", "econ", N,
                "-")
 
 Q20 = Question(20, "Single payer healthcare is preferable to a privatized system", "econ", N, "-")
 
 Q21 = Question(21, "Free trade and globalization have been our greatest allies in alleviating poverty", "econ", P, "-")
 
-Q22 = Question(21, "A state-planned economy cannot scale to the efficiency or complexity of the free market", "econ", P,
+Q22 = Question(22, "A state-planned economy cannot scale to the efficiency or complexity of the free market", "econ", P,
                "-")
 
 Q23 = Question(23, "Deficit spending is necessary to rebuild our public infrastructure", "econ", N, "-")
@@ -184,24 +185,15 @@ Q51 = Question(51, "Jazz music is degenerate and an example of the corruption of
 Q52 = Question(52, "Modern art is an example of our cultural decay", "culture", P, "-")
 
 Q53 = Question(53, "There are foreign and subversive elements in positions of power that are corrupting our culture",
-               "cultural", P, "-")
+               "culture", P, "-")
 
-Q54 = Question(54, "Immigration is a net positive to my country", "cultural", N, "-")
+Q54 = Question(54, "Immigration is a net positive to my country", "culture", N, "-")
 
 Q55 = Question(55, "Multiculturalism is an important value for my country to have", "culture", N, "-")
 
 Q56 = Question(56, "Tradition is silly since it refuses to move on and look to the future", "culture", N, "-")
 
 Q57 = Question(57, "I do not enjoy our current popular culture", "culture", P, "-")
-
-
-# Question Lists
-
-# stateAxis = [Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12,Q13,Q14,Q15,Q16]
-
-# econAxis  = [Q17,Q18,Q19,Q20,Q21,Q22,Q23,Q24,Q25,Q26,Q27,Q28,Q29,Q30,Q31,Q32,Q33,Q34,Q35,Q36]
-
-
 
 
 class Score:
@@ -213,12 +205,13 @@ class Score:
     GoBack = False
 
 
+# Question Lists
+stateAxis = [Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, Q16]
+econAxis = [Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36]
+foreignAxis = [Q37, Q38, Q39, Q40, Q41, Q42, Q43, Q44, Q45, Q46, Q47, Q48, Q49]
+cultureAxis = [Q50, Q51, Q52, Q53, Q54, Q55, Q56, Q57]
 
-# Test Questions
-stateAxis = [Q1, Q2,Q3,Q4]
-econAxis = [Q17, Q18]
-foreignAxis = [Q48, Q49]
-cultureAxis = [Q50,Q51,Q52,Q53,Q54]
+MegaList = stateAxis + econAxis + foreignAxis + cultureAxis
 
 
 class OpeningWindow(tk.Tk):
@@ -233,9 +226,10 @@ class OpeningWindow(tk.Tk):
 
         # labels
         self.welcomeLabel1 = tk.Label(self, text="Welcome to the" + '\n' + "Political Compass Test for 2021",
-                                      font=("Georgia", 40, 'bold'), background="#f2552c", foreground="white", height=2,
-                                      width=40).place(relx=.35, rely=0.2, anchor="center")
-        self.welcomeLabel2 = ttk.Label(self, background="#004b8d", foreground="white", font=("Georgia", 15, 'bold'),
+                                      font=("Georgia", 40, 'bold'), background="#f2552c", foreground="#FAE5D3",
+                                      height=2,
+                                      width=40, justify='left').place(relx=.35, rely=0.2, anchor="center")
+        self.welcomeLabel2 = ttk.Label(self, background="#004b8d", foreground="#F9E79F", font=("Georgia", 15, 'bold'),
                                        text='This test is a new and improved version of the' + '\n' + 'popular political compass test' + '\n' + 'which has become the subject of a lot of memes').place(
             relx=.20, rely=0.5, anchor="center")
 
@@ -247,9 +241,10 @@ class OpeningWindow(tk.Tk):
         self.my_image = self.my_canvas.create_image(0, 0, anchor=NW, image=self.img)
 
         # Name textbox
-        self.nameLabel = tk.Label(self, text="Please enter your name here: ", bg="#004b8d", fg="white",
+        self.nameLabel = tk.Label(self, text="Please enter your name here: ", bg="#004b8d", fg="#F9E79F",
                                   font=("Georgia", 15, 'bold')).place(relx=.45, rely=0.4)
-        self.nameEntryBox = tk.Entry(self, justify='left', font=("Georgia", 15, 'bold'), width=20)
+        self.nameEntryBox = tk.Entry(self, justify='left', font=("Georgia", 15, 'bold'), width=20, bg='#AED6F1',
+                                     fg='#212F3D')
         self.nameEntryBox.place(relx=.80, rely=0.42, anchor="center")
 
         # Button
@@ -259,7 +254,7 @@ class OpeningWindow(tk.Tk):
         self.button.place(relx=.75, rely=.7, anchor="center")
 
         # Date Label
-        self.DateLabel = ttk.Label(self, text=currentDate, background="#004b8d", foreground="white",
+        self.DateLabel = ttk.Label(self, text=currentDate, background="#004b8d", foreground="#F9E79F",
                                    font=("Georgia", 15, 'bold')).place(relx=.1, rely=.96, anchor="center")
 
         # Quit the program
@@ -269,9 +264,9 @@ class OpeningWindow(tk.Tk):
         self.quitButton.place(relx=.82, rely=.9, anchor="center")
 
     def button_clicked(self):
-        print("Starting the quiz")
         Score.Name = self.nameEntryBox.get()
-        # print(TestScore.myName)
+        print("User's name is "+Score.Name+" and is identified by the username "+userName)
+        print(userName+" is starting the quiz")
         # print(Score.Name)
         self.destroy()
 
@@ -280,330 +275,9 @@ class OpeningWindow(tk.Tk):
         sys.exit()
 
 
-class StateQuestionWindow(tk.Tk, Question):
-    def __init__(self, question):
-        super().__init__()
-        self.question = question
-
-        # configure the question window
-        self.title('State Axis Questions')
-        # self.geometry('1000x500')
-        self.attributes('-fullscreen', True)
-        self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
-        self.configure(bg="#00BFFF")
-
-        # labels
-        self.questionLabel = tk.Label(self, text=question.getText(), font=("Georgia", 25, 'bold'), background="#7D12E4",
-                                      foreground="#40FF00", width=100, height=2).place(relx=0.5, rely=0.1,
-                                                                                       anchor='center')
-
-        def stronglyAgree_onClick():
-            # print("Strongly Agree clicked")
-            question.setAnswer("A")
-            self.destroy()
-
-
-        def moderatelyAgree_onClick():
-            # print("Moderately Agree clicked")
-            question.setAnswer("B")
-            self.destroy()
-
-
-        def neutral_onClick():
-            print("Neutral Clicked")
-            question.setAnswer("E")
-            self.destroy()
-
-        def moderatelyDisagree_onClick():
-            # print("Moderately Disagree clicked")
-            question.setAnswer("C")
-            self.destroy()
-
-
-        def stronglyDisagree_onClick():
-            # print("Strongly Disagree clicked")
-            question.setAnswer("D")
-            self.destroy()
-
-
-
-        def goBack_onClick():
-            print("Back button pressed")
-            self.destroy()
-            Score.GoBack = True
-
-
-        def quitProgram():
-            sys.exit()
-
-
-
-        # Option buttons
-        self.stronglyAgree = tk.Button(self, text="Strongly Agree", command=stronglyAgree_onClick,
-                                       font=("Georgia", 20, 'bold'), height=1, width=20, bg="#008000",
-                                       fg="black").place(relx=.5, rely=.25, anchor='center')
-        self.moderatelyAgree = tk.Button(self, text="Moderately Agree", command=moderatelyAgree_onClick,
-                                         font=("Georgia", 20, 'bold'), height=1, width=20, bg="#12E414",
-                                         fg="black").place(relx=.5, rely=.35, anchor='center')
-
-        self.neutral = tk.Button(self, text="Neutral/Unsure", command=neutral_onClick,
-                                 font=("Georgia", 20, 'bold'), height=1, width=20, bg="#99A3A4",
-                                 fg="black").place(relx=.5, rely=.45, anchor='center')
-
-        self.moderatelyDisagree = tk.Button(self, text="Moderately Disagree",
-                                            command=moderatelyDisagree_onClick, font=("Georgia", 20, 'bold'), height=1,
-                                            width=20, bg="#FF0000", fg="black").place(relx=.5, rely=.55,
-                                                                                      anchor='center')
-
-        self.stronglyDisagree = tk.Button(self, text="Strongly Disagree", command=stronglyDisagree_onClick,
-                                          font=("Georgia", 20, 'bold'), height=1, width=20, bg="#7F0000",
-                                          fg="black").place(relx=.5, rely=.65, anchor='center')
-        self.backButton = tk.Button(self, text="◀Previous Question", font=("Georgia", 20, 'bold'),command=goBack_onClick,height=1, width=20,
-                                    bg="#F1C40F", fg="black").place(relx=.2, rely=.85, anchor='center')
-        self.quitButton = tk.Button(self, text="Quit❌", command=quitProgram, font=("Georgia", 20, 'bold'), height=1,
-                                    width=20, bg="#E74C3C", fg="black").place(relx=.8, rely=.85, anchor='center')
-
-
-class EconQuestionWindow(tk.Tk, Question):
-    def __init__(self, question):
-        super().__init__()
-        self.question = question
-
-        # configure the question window
-        self.title('Economic Axis Questions')
-        self.attributes('-fullscreen', True)
-        self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
-        self.configure(bg="#884EA0")
-
-        # Labels
-        self.questionLabel = tk.Label(self, text=question.getText(), font=("Georgia", 20, 'bold'), background="#E67E22",
-                                      foreground="#1C2833", width=100, height=2).place(relx=0.5, rely=0.1,
-                                                                                       anchor='center')
-
-        def stronglyAgree_onClick():
-            # print("Strongly Agree clicked")
-            question.setAnswer("A")
-            self.destroy()
-
-
-        def moderatelyAgree_onClick():
-            # print("Moderately Agree clicked")
-            question.setAnswer("B")
-            self.destroy()
-
-
-        def neutral_onClick():
-            print("Neutral Clicked")
-            question.setAnswer("E")
-            self.destroy()
-
-        def moderatelyDisagree_onClick():
-            # print("Moderately Disagree clicked")
-            question.setAnswer("C")
-            self.destroy()
-
-
-        def stronglyDisagree_onClick():
-            # print("Strongly Disagree clicked")
-            question.setAnswer("D")
-            self.destroy()
-
-
-        def quitProgram():
-            sys.exit()
-
-        def goBack_onClick():
-            print("Back button pressed")
-            self.destroy()
-            Score.GoBack = True
-
-        # Option buttons
-        self.stronglyAgree = tk.Button(self, text="Strongly Agree", command=stronglyAgree_onClick,
-                                       font=("Georgia", 20, 'bold'), height=1, width=20, bg="#008000",
-                                       fg="black").place(relx=.5, rely=.25, anchor='center')
-        self.moderatelyAgree = tk.Button(self, text="Moderately Agree", command=moderatelyAgree_onClick,
-                                         font=("Georgia", 20, 'bold'), height=1, width=20, bg="#12E414",
-                                         fg="black").place(relx=.5, rely=.35, anchor='center')
-
-        self.neutral = tk.Button(self, text="Neutral/Unsure", command=neutral_onClick,
-                                 font=("Georgia", 20, 'bold'), height=1, width=20, bg="#99A3A4",
-                                 fg="black").place(relx=.5, rely=.45, anchor='center')
-
-        self.moderatelyDisagree = tk.Button(self, text="Moderately Disagree",
-                                            command=moderatelyDisagree_onClick, font=("Georgia", 20, 'bold'), height=1,
-                                            width=20, bg="#FF0000", fg="black").place(relx=.5, rely=.55,
-                                                                                      anchor='center')
-
-        self.stronglyDisagree = tk.Button(self, text="Strongly Disagree", command=stronglyDisagree_onClick,
-                                          font=("Georgia", 20, 'bold'), height=1, width=20, bg="#7F0000",
-                                          fg="black").place(relx=.5, rely=.65, anchor='center')
-        self.backButton = tk.Button(self, text="◀Previous Question", font=("Georgia", 20, 'bold'), height=1, width=20,
-                                    bg="#F1C40F", fg="black",command=goBack_onClick).place(relx=.2, rely=.85, anchor='center')
-        self.quitButton = tk.Button(self, text="Quit❌", command=quitProgram, font=("Georgia", 20, 'bold'), height=1,
-                                    width=20, bg="#E74C3C", fg="black").place(relx=.8, rely=.85, anchor='center')
-
-
-class ForeignPolicyQuestionWindow(tk.Tk, Question):
-    def __init__(self, question):
-        super().__init__()
-        self.question = question
-
-        # configure the question window
-        self.title('Foreign Policy Axis Questions')
-        self.attributes('-fullscreen', True)
-        self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
-        self.configure(bg="#1ABC9C")
-
-        # Labels
-        self.questionLabel = tk.Label(self, text=question.getText(), font=("Georgia", 20, 'bold'), background="#2E86C1",
-                                      foreground="#7B241C", width=100, height=2).place(relx=0.5, rely=0.1,
-                                                                                       anchor='center')
-
-        def stronglyAgree_onClick():
-            # print("Strongly Agree clicked")
-            question.setAnswer("A")
-            self.destroy()
-
-
-        def moderatelyAgree_onClick():
-            # print("Moderately Agree clicked")
-            question.setAnswer("B")
-            self.destroy()
-
-
-        def neutral_onClick():
-            #print("Neutral Clicked")
-            question.setAnswer("E")
-            self.destroy()
-
-        def moderatelyDisagree_onClick():
-            # print("Moderately Disagree clicked")
-            question.setAnswer("C")
-            self.destroy()
-
-
-        def stronglyDisagree_onClick():
-            # print("Strongly Disagree clicked")
-            question.setAnswer("D")
-            self.destroy()
-
-        def goBack_onClick():
-            print("Back button pressed")
-            self.destroy()
-            Score.GoBack = True
-
-        def quitProgram():
-            sys.exit()
-
-        # Option buttons
-        self.stronglyAgree = tk.Button(self, text="Strongly Agree", command=stronglyAgree_onClick,
-                                       font=("Georgia", 20, 'bold'), height=1, width=20, bg="#008000",
-                                       fg="black").place(relx=.5, rely=.25, anchor='center')
-        self.moderatelyAgree = tk.Button(self, text="Moderately Agree", command=moderatelyAgree_onClick,
-                                         font=("Georgia", 20, 'bold'), height=1, width=20, bg="#12E414",
-                                         fg="black").place(relx=.5, rely=.35, anchor='center')
-
-        self.neutral = tk.Button(self, text="Neutral/Unsure", command=neutral_onClick,
-                                 font=("Georgia", 20, 'bold'), height=1, width=20, bg="#99A3A4",
-                                 fg="black").place(relx=.5, rely=.45, anchor='center')
-
-        self.moderatelyDisagree = tk.Button(self, text="Moderately Disagree",
-                                            command=moderatelyDisagree_onClick, font=("Georgia", 20, 'bold'), height=1,
-                                            width=20, bg="#FF0000", fg="black").place(relx=.5, rely=.55,
-                                                                                      anchor='center')
-
-        self.stronglyDisagree = tk.Button(self, text="Strongly Disagree", command=stronglyDisagree_onClick,
-                                          font=("Georgia", 20, 'bold'), height=1, width=20, bg="#7F0000",
-                                          fg="black").place(relx=.5, rely=.65, anchor='center')
-        self.backButton = tk.Button(self, text="◀Previous Question", font=("Georgia", 20, 'bold'), height=1, width=20,
-                                    bg="#F1C40F", fg="black",command=goBack_onClick).place(relx=.2, rely=.85, anchor='center')
-        self.quitButton = tk.Button(self, text="Quit❌", command=quitProgram, font=("Georgia", 20, 'bold'), height=1,
-                                    width=20, bg="#E74C3C", fg="black").place(relx=.8, rely=.85, anchor='center')
-
-
-class CulturalAxisQuestionWindow(tk.Tk, Question):
-    def __init__(self, question):
-        super().__init__()
-        self.question = question
-
-        # configure the question window
-        self.title('Cultural Axis Questions')
-        self.attributes('-fullscreen', True)
-        self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
-        self.configure(bg="#E91E63")
-
-        # Labels
-        self.questionLabel = tk.Label(self, text=question.getText(), font=("Georgia", 20, 'bold'), background="#2ECC71",
-                                      foreground="white", width=100, height=2).place(relx=0.5, rely=0.1,
-                                                                                     anchor='center')
-
-        def stronglyAgree_onClick():
-            # print("Strongly Agree clicked")
-            question.setAnswer("A")
-            self.destroy()
-
-
-        def moderatelyAgree_onClick():
-            # print("Moderately Agree clicked")
-            question.setAnswer("B")
-            self.destroy()
-
-
-        def neutral_onClick():
-            print("Neutral Clicked")
-            question.setAnswer("E")
-            self.destroy()
-
-        def moderatelyDisagree_onClick():
-            # print("Moderately Disagree clicked")
-            question.setAnswer("C")
-            self.destroy()
-
-
-        def stronglyDisagree_onClick():
-            # print("Strongly Disagree clicked")
-            question.setAnswer("D")
-            self.destroy()
-
-
-        def quitProgram():
-            sys.exit()
-
-        def goBack_onClick():
-            print("Back button pressed")
-            self.destroy()
-            Score.GoBack = True
-
-        # Option buttons
-        self.stronglyAgree = tk.Button(self, text="Strongly Agree", command=stronglyAgree_onClick,
-                                       font=("Georgia", 20, 'bold'), height=1, width=20, bg="#008000",
-                                       fg="black").place(relx=.5, rely=.25, anchor='center')
-        self.moderatelyAgree = tk.Button(self, text="Moderately Agree", command=moderatelyAgree_onClick,
-                                         font=("Georgia", 20, 'bold'), height=1, width=20, bg="#12E414",
-                                         fg="black").place(relx=.5, rely=.35, anchor='center')
-
-        self.neutral = tk.Button(self, text="Neutral/Unsure", command=neutral_onClick,
-                                 font=("Georgia", 20, 'bold'), height=1, width=20, bg="#99A3A4",
-                                 fg="black").place(relx=.5, rely=.45, anchor='center')
-
-        self.moderatelyDisagree = tk.Button(self, text="Moderately Disagree",
-                                            command=moderatelyDisagree_onClick, font=("Georgia", 20, 'bold'), height=1,
-                                            width=20, bg="#FF0000", fg="black").place(relx=.5, rely=.55,
-                                                                                      anchor='center')
-
-        self.stronglyDisagree = tk.Button(self, text="Strongly Disagree", command=stronglyDisagree_onClick,
-                                          font=("Georgia", 20, 'bold'), height=1, width=20, bg="#7F0000",
-                                          fg="black").place(relx=.5, rely=.65, anchor='center')
-        self.backButton = tk.Button(self, text="◀Previous Question", font=("Georgia", 20, 'bold'), height=1, width=20,
-                                    bg="#F1C40F", fg="black",command=goBack_onClick).place(relx=.2, rely=.85, anchor='center')
-        self.quitButton = tk.Button(self, text="Quit❌", command=quitProgram, font=("Georgia", 20, 'bold'), height=1,
-                                    width=20, bg="#E74C3C", fg="black").place(relx=.8, rely=.85, anchor='center')
-
-
 class SecondLastWindow(tk.Tk, Question, Score):
-    def __init__(self, question):
+    def __init__(self):
         super().__init__()
-        self.question = question
         self.configure(bg="#F39C12")
         self.attributes('-fullscreen', True)
         self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
@@ -612,13 +286,13 @@ class SecondLastWindow(tk.Tk, Question, Score):
         def FinishQuiz():
             self.destroy()
 
-        self.FinishQuizButton = tk.Button(self, text="Finish Quiz", command=FinishQuiz, font=("Georgia", 20, 'bold'),
+        self.FinishQuizButton = tk.Button(self, text="Finish Quiz", command=FinishQuiz, font=("Georgia", 30, 'bold'),
                                           height=2,
                                           width=20, bg="#8E44AD", fg="#ECF0F1").place(relx=0.5, rely=0.5,
                                                                                       anchor='center')
 
     def sumScore(self, question):
-        print("Finishing the quiz and computing final scores")
+        print(question.getNumber())
         if question.getAxis() == "state":
             if question.getPolarity() == N:
                 if question.getAnswer() == "A":
@@ -740,7 +414,7 @@ class SecondLastWindow(tk.Tk, Question, Score):
 class ResultsWindow(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.configure(bg="red")
+        self.configure(bg="#48C9B0")
         self.attributes('-fullscreen', True)
         self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
         self.title("Here are your results!")
@@ -763,158 +437,235 @@ class ResultsWindow(tk.Tk):
             f.write("------------------------------------------------------------------------------------" + '\n')
             f.close()
 
-        def questionsToTextFile():
-            f = open("my_questions.txt", "w")
-            f.write("There are " + str(len(stateAxis)) + " state axis questions" + '\n')
-            for x in stateAxis:
-                f.write(str(x.getNumber()) + ": " + str(x.getText()) + ": " + x.getAnswer() + '\n')
-            f.write("--------------------------------------------------------------------------------------" + '\n')
-            f.write("There are " + str(len(econAxis)) + " econ axis questions" + '\n')
-            for y in econAxis:
-                f.write(str(y.getNumber()) + ": " + str(y.getText()) + ": " + y.getAnswer() + '\n')
-            f.write("--------------------------------------------------------------------------------------" + '\n')
-            f.write("There are " + str(len(foreignAxis)) + " foreign policy axis questions" + '\n')
-            for z in foreignAxis:
-                f.write(str(z.getNumber()) + ": " + str(z.getText()) + ": " + z.getAnswer() + '\n')
-            f.write("--------------------------------------------------------------------------------------" + '\n')
-            f.write("There are " + str(len(cultureAxis)) + " cultural axis questions" + '\n')
-            for w in cultureAxis:
-                f.write(str(w.getNumber()) + ": " + str(w.getText()) + ": " + w.getAnswer() + '\n')
-            f.write("--------------------------------------------------------------------------------------" + '\n')
-            f.write("End of the questions")
-            f.close()
+        def search_for_file_path():
+            currdir = os.getcwd()
+            tempdir = filedialog.askdirectory(parent=self, initialdir=currdir, title='Please select a directory')
+            if len(tempdir) > 0:
+                print("You chose: %s" % tempdir)
+                return tempdir
+
+            elif len(tempdir) == 0:
+                print("None chosen")
+                return None
 
         def exitProgram():
             sys.exit()
 
-        self.ExportTextButton = ttk.Button(self, text="Export to a text file", command=exportToTextFile).pack()
-        self.QuestionsToTextButton = ttk.Button(self, text="Write questions to a text file",
-                                                command=questionsToTextFile).pack()
-        self.ExitButton = ttk.Button(self, text="Exit", command=exitProgram).pack()
+        self.ExitButton = tk.Button(self, text="Exit", font=("Georgia", 20, 'bold'), command=exitProgram, width=10,
+                                    height=2, bg='orange', fg='black').place(relx=0.5, rely=0.5, anchor='center')
+
+    def dataToTextFile(self):
+        f = open("my_questions.txt", "a")
+        f.write("Results for " + userName + " on " + currentDate + '\n')
+        for x in stateAxis:
+            f.write(str(x.getNumber()) + ": " + str(x.getText()) + ": " + x.getAnswer() + '\n')
+        for y in econAxis:
+            f.write(str(y.getNumber()) + ": " + str(y.getText()) + ": " + y.getAnswer() + '\n')
+        for z in foreignAxis:
+            f.write(str(z.getNumber()) + ": " + str(z.getText()) + ": " + z.getAnswer() + '\n')
+        for w in cultureAxis:
+            f.write(str(w.getNumber()) + ": " + str(w.getText()) + ": " + w.getAnswer() + '\n')
+        f.write(
+            "------------------------------------------------------------------------------------------------------------------------------------" + '\n')
+        f.close()
+
+        f = open("my_results.txt", "a")
+        f.write("Results for " + userName + " on " + currentDate + '\n')
+        f.write('\n')
+        f.write("Your final State Axis Score is " + str(Score.StateScore) + '\n')
+        f.write("Your final Economic Axis Score is " + str(Score.EconScore) + '\n')
+        f.write("Your final Foreign Policy Axis Score is " + str(Score.ForeignScore) + '\n')
+        f.write("Your final Cultural Axis Score is " + str(Score.CulturalScore) + '\n')
+        f.write(
+            "------------------------------------------------------------------------------------------------------------------------------------" + '\n')
+        f.close()
 
 
+class QuestionWindow(tk.Tk, Question):
+    def __init__(self, question):
+        super().__init__()
+        self.question = question
 
-def RunQuestion(WindowClass,list):
+        # configure the question window
+        self.title(question.getAxis() + ' Axis Questions')
+        self.attributes('-fullscreen', True)
+        self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
+
+        # Labels
+        self.questionLabel = tk.Label(self, text=question.getText(), font=("Georgia", 17, 'bold'), background="#2ECC71",
+                                      foreground="white", width=100, height=2)
+        self.questionLabel.place(relx=0.5, rely=0.1, anchor='center')
+
+        def stronglyAgree_onClick():
+            #print("Strongly Agree clicked")
+            question.setAnswer("A")
+            self.destroy()
+
+        def moderatelyAgree_onClick():
+            # print("Moderately Agree clicked")
+            question.setAnswer("B")
+            self.destroy()
+
+        def neutral_onClick():
+            #print("Neutral Clicked")
+            question.setAnswer("E")
+            self.destroy()
+
+        def moderatelyDisagree_onClick():
+            # print("Moderately Disagree clicked")
+            question.setAnswer("C")
+            self.destroy()
+
+        def stronglyDisagree_onClick():
+            # print("Strongly Disagree clicked")
+            question.setAnswer("D")
+            self.destroy()
+
+        def quitProgram():
+            sys.exit()
+
+        def goBack_onClick():
+            #print("Back button pressed")
+            self.destroy()
+            Score.GoBack = True
+
+        # Option buttons
+        self.stronglyAgree = tk.Button(self, text="Strongly Agree", command=stronglyAgree_onClick,
+                                       font=("Georgia", 20, 'bold'), height=1, width=20, bg="#008000",
+                                       fg="black").place(relx=.5, rely=.25, anchor='center')
+        self.moderatelyAgree = tk.Button(self, text="Moderately Agree", command=moderatelyAgree_onClick,
+                                         font=("Georgia", 20, 'bold'), height=1, width=20, bg="#12E414",
+                                         fg="black").place(relx=.5, rely=.35, anchor='center')
+
+        self.neutral = tk.Button(self, text="Neutral/Unsure", command=neutral_onClick,
+                                 font=("Georgia", 20, 'bold'), height=1, width=20, bg="#99A3A4",
+                                 fg="black").place(relx=.5, rely=.45, anchor='center')
+
+        self.moderatelyDisagree = tk.Button(self, text="Moderately Disagree",
+                                            command=moderatelyDisagree_onClick, font=("Georgia", 20, 'bold'), height=1,
+                                            width=20, bg="#FF0000", fg="black").place(relx=.5, rely=.55,
+                                                                                      anchor='center')
+
+        self.stronglyDisagree = tk.Button(self, text="Strongly Disagree", command=stronglyDisagree_onClick,
+                                          font=("Georgia", 20, 'bold'), height=1, width=20, bg="#7F0000",
+                                          fg="black").place(relx=.5, rely=.65, anchor='center')
+
+        self.backButton = tk.Button(self, text="◀Previous Question", font=("Georgia", 20, 'bold'), height=1, width=20,
+                                    bg="#F1C40F", fg="black", command=goBack_onClick).place(relx=.2, rely=.85,
+                                                                                            anchor='center')
+
+        self.quitButton = tk.Button(self, text="Quit❌", command=quitProgram, font=("Georgia", 20, 'bold'), height=1,
+                                    width=10, bg="#E74C3C", fg="black").place(relx=.2, rely=.95, anchor='center')
+
+
+def RunQuestion(WindowClass, list):
     counter = 0
     while (counter < len(list)):
-        app = WindowClass(list[counter])
-        app.mainloop()
-        if Score.GoBack:
-            print("Going back")
-            if (counter == 0):
-                print("Case counter=0 so keep going")
-                Score.GoBack = False
-                continue
-            else:
-                counter += -1
-                Score.GoBack = False
-                continue
-        else:
-            print("Keep going")
-            counter += 1
-            continue
+        question = list[counter]
+        app = WindowClass(question)
+        print(question.getNumber())
 
+        if (question.getAxis() == 'state'):
+            app.config(bg="#16A085")
+            app.questionLabel.config(bg='#F1C40F', fg='#1C2833')
+            app.mainloop()
+
+            if (Score.GoBack):
+                #print("Going back")
+                if (counter == 0):
+                    #print("Counter = 0")
+                    Score.GoBack = False
+                    continue
+                else:
+                    counter += -1
+                    Score.GoBack = False
+                    continue
+            else:
+                counter += 1
+                continue
+
+        elif (question.getAxis() == 'econ'):
+            app.config(bg="#EC7063")
+            app.questionLabel.config(bg='#BA4A00', fg='white')
+            app.mainloop()
+
+            if (Score.GoBack):
+                #print("Going back")
+                if (counter == 0):
+                    #print("Counter = 0")
+                    Score.GoBack = False
+                    continue
+                else:
+                    counter += -1
+                    Score.GoBack = False
+                    continue
+            else:
+                counter += 1
+                continue
+
+
+
+
+        elif (question.getAxis() == 'culture'):
+            app.config(bg='#2E86C1')
+            app.questionLabel.config(bg='purple', fg='white')
+            app.mainloop()
+
+            if (Score.GoBack):
+                #print("Going back")
+                if (counter == 0):
+                    #print("Counter = 0")
+                    Score.GoBack = False
+                    continue
+                else:
+                    counter += -1
+                    Score.GoBack = False
+                    continue
+            else:
+                counter += 1
+                continue
+
+
+
+
+        elif (question.getAxis() == 'foreign'):
+            app.config(bg='#D35400')
+            app.questionLabel.config(bg='red', fg='black')
+            app.mainloop()
+
+            if (Score.GoBack):
+                #print("Going back")
+                if (counter == 0):
+                    #print("Counter = 0")
+                    Score.GoBack = False
+                    continue
+                else:
+                    counter += -1
+                    Score.GoBack = False
+                    continue
+            else:
+                counter += 1
+                continue
+
+        else:
+            pass
 
 
 if __name__ == "__main__":
 
-
-    #app = OpeningWindow()
-    #app.mainloop()
-
-
-    stateCounter = 0
-    while(stateCounter<len(stateAxis)):
-        app = StateQuestionWindow(stateAxis[stateCounter])
-        app.mainloop()
-        if Score.GoBack:
-            print("Going back")
-            if (stateCounter==0):
-                print("Case i=0 so keep going")
-                Score.GoBack = False
-                continue
-            else:
-                stateCounter += -1
-                Score.GoBack = False
-                continue
-        else:
-            print("Keep going")
-            stateCounter += 1
-            continue
-
-    econCounter = 0
-    while (econCounter < len(econAxis)):
-        app = EconQuestionWindow(econAxis[econCounter])
-        app.mainloop()
-        if Score.GoBack:
-            print("Going back")
-            if (econCounter == 0):
-                print("Case i=0 so keep going")
-                Score.GoBack = False
-                continue
-            else:
-                econCounter += -1
-                Score.GoBack = False
-                continue
-        else:
-            print("Keep going")
-            econCounter += 1
-            continue
-
-    cultureCounter = 0
-    while (cultureCounter < len(cultureAxis)):
-        app = CulturalAxisQuestionWindow(cultureAxis[cultureCounter])
-        app.mainloop()
-        if Score.GoBack:
-            print("Going back")
-            if (cultureCounter == 0):
-                # special case
-                Score.GoBack = False
-                continue
-            else:
-                cultureCounter += -1
-                Score.GoBack = False
-                continue
-        else:
-            print("Keep going")
-            cultureCounter += 1
-            continue
-
-    foreignCounter = 0
-    while (foreignCounter < len(foreignAxis)):
-        app = ForeignPolicyQuestionWindow(foreignAxis[foreignCounter])
-        app.mainloop()
-        if Score.GoBack:
-            print("Going back")
-            if (foreignCounter == 0):
-                # special case
-                Score.GoBack = False
-                continue
-            else:
-                foreignCounter += -1
-                Score.GoBack = False
-                continue
-        else:
-            print("Keep going")
-            foreignCounter += 1
-            continue
-
-
-    app = SecondLastWindow(stateAxis[0])
+    app = OpeningWindow()
     app.mainloop()
 
-    for i in range(len(stateAxis)):
-        app.sumScore(stateAxis[i])
+    RunQuestion(QuestionWindow, MegaList)
 
-    for i in range(len(econAxis)):
-        app.sumScore(econAxis[i])
+    app = SecondLastWindow()
+    app.mainloop()
 
-    for i in range(len(cultureAxis)):
-        app.sumScore(cultureAxis[i])
-
-    for i in range(len(foreignAxis)):
-        app.sumScore(foreignAxis[i])
-
+    print("Calculating scores")
+    for i in range(len(MegaList)):
+        app.sumScore(MegaList[i])
+    print("Calculations complete")
 
     app = ResultsWindow()
+    app.dataToTextFile()
     app.mainloop()
