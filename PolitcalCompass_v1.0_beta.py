@@ -1,7 +1,7 @@
 # Caleb Stanton and Matt Rieckenberg
-# Political Compass for 2021 version 1.0
+# Political Compass for 2021 version 1.0 beta
 
-import os
+
 import tkinter as tk
 from tkinter import ttk,RAISED, filedialog
 import datetime
@@ -9,6 +9,10 @@ import sys
 from tkinter import PhotoImage, NW
 import string
 import random
+
+
+
+
 
 # Constants
 N = -1
@@ -265,6 +269,7 @@ class OpeningWindow(tk.Tk):
         self.quitButton['command'] = self.quitProgram
         self.quitButton.place(relx=.82, rely=.9, anchor="center")
 
+
     def button_clicked(self):
         Score.Name = self.nameEntryBox.get()
         print("User's name is "+Score.Name+" and is identified by the username "+userName)
@@ -290,8 +295,7 @@ class SecondLastWindow(tk.Tk, Question, Score):
 
         self.FinishQuizButton = tk.Button(self, text="Finish Quiz", command=FinishQuiz, font=("Georgia", 30, 'bold'),
                                           height=2,
-                                          width=20, bg="#8E44AD", fg="#ECF0F1").place(relx=0.5, rely=0.5,
-anchor='center')
+                                          width=20, bg="#8E44AD", fg="#ECF0F1").place(relx=0.5, rely=0.5,anchor='center')
 
 ## (sumScore self question) Computes summation of the users score after they've submitted all the questions.
 ## applies different scoring algorithms depending one what axis the questions fall on.
@@ -429,40 +433,29 @@ class ResultsWindow(tk.Tk):
         self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
         self.title("Here are your results!")
 
-        self.StateAxisLabel = ttk.Label(self, text="My final State Axis Score is " + str(Score.StateScore)).pack()
-        self.EconomicAxisLabel = ttk.Label(self, text="My final Economic Axis Score is " + str(Score.EconScore)).pack()
-        self.ForeignAxisLabel = ttk.Label(self, text="My final Foreign Policy Axis Score is " + str(
+        self.StateAxisLabel = tk.Label(self, text="My final State Axis Score is " + str(Score.StateScore)).pack()
+        self.EconomicAxisLabel = tk.Label(self, text="My final Economic Axis Score is " + str(Score.EconScore)).pack()
+        self.ForeignAxisLabel = tk.Label(self, text="My final Foreign Policy Axis Score is " + str(
             Score.ForeignScore)).pack()
-        self.CulturalAxisLabel = ttk.Label(self,
+        self.CulturalAxisLabel = tk.Label(self,
                                            text="My final Cultural Axis Score is " + str(Score.CulturalScore)).pack()
 
-        def exportToTextFile():  # add feature to choose where the file goes
-            f = open("my_results.txt", "w")
-            f.write("Results for " + Score.Name + " on " + currentDate + '\n')
-            f.write('\n')
-            f.write("Your final State Axis Score is " + str(Score.StateScore) + '\n')
-            f.write("Your final Economic Axis Score is " + str(Score.EconScore) + '\n')
-            f.write("Your final Foreign Policy Axis Score is " + str(Score.ForeignScore) + '\n')
-            f.write("Your final Cultural Axis Score is " + str(Score.CulturalScore) + '\n')
-            f.write("------------------------------------------------------------------------------------" + '\n')
-            f.close()
-
-        def search_for_file_path():
-            currdir = os.getcwd()
-            tempdir = filedialog.askdirectory(parent=self, initialdir=currdir, title='Please select a directory')
-            if len(tempdir) > 0:
-                print("You chose: %s" % tempdir)
-                return tempdir
-
-            elif len(tempdir) == 0:
-                print("None chosen")
-                return None
+        def select_output_file():
+            output_file_path = tk.filedialog.asksaveasfilename(filetypes=(("Text files", "*.txt"),("Any file", "*")))
+            print(output_file_path)
+            f = open(output_file_path+".txt",'w')
+            f.write("Results for "+Score.Name+" on "+currentDate+'\n')
+            f.write("My final State Axis Score is " + str(Score.StateScore)+'\n')
+            f.write("My final Economic Axis Score is " + str(Score.EconScore)+'\n')
+            f.write("My final Foreign Policy Axis Score is " + str(Score.ForeignScore)+'\n')
+            f.write("My final Cultural Axis Score is " + str(Score.CulturalScore)+'\n')
 
         def exitProgram():
             sys.exit()
 
         self.ExitButton = tk.Button(self, text="Exit", font=("Georgia", 20, 'bold'), command=exitProgram, width=10,
                                     height=2, bg='orange', fg='black').place(relx=0.5, rely=0.5, anchor='center')
+        self.ChooseFolder = tk.Button(self,text="Export",command=select_output_file).pack()
 
     def dataToTextFile(self):
         f = open("UserData.txt", "a")
@@ -504,6 +497,8 @@ class QuestionWindow(tk.Tk, Question):
         self.questionLabel = tk.Label(self, text=question.getText(), font=("Georgia", 17, 'bold'), background="#2ECC71",
                                       foreground="white", width=100, height=2)
         self.questionLabel.place(relx=0.5, rely=0.1, anchor='center')
+        self.progressLabel = tk.Label(self,text=str(question.getNumber())+"/"+str(len(MegaList)),font=("Georgia",20,'bold'))
+        self.progressLabel.place(relx=0.9,rely=0.9)
 
         def stronglyAgree_onClick():
             #print("Strongly Agree clicked")
@@ -567,6 +562,8 @@ class QuestionWindow(tk.Tk, Question):
                                     width=10, bg="#E74C3C", fg="black").place(relx=.2, rely=.95, anchor='center')
 
 
+
+
 ## (RunQuestion WindowClass list) uses a while loop to traverse a list of questions and calls the question window to display them.
 ## RuneQuestion: listof questions -> null
 def RunQuestion(WindowClass, list):
@@ -579,6 +576,7 @@ def RunQuestion(WindowClass, list):
         if (question.getAxis() == 'state'):  # configures colour of questions
             app.config(bg="#16A085")
             app.questionLabel.config(bg='#F1C40F', fg='#1C2833')
+            app.progressLabel.config(bg="#16A085",fg="white")
             app.mainloop()
 
             if (Score.GoBack):   # adds previous button functionality
@@ -596,6 +594,7 @@ def RunQuestion(WindowClass, list):
         elif (question.getAxis() == 'econ'):
             app.config(bg="#EC7063")
             app.questionLabel.config(bg='#BA4A00', fg='white')
+            app.progressLabel.config(bg="#EC7063", fg="white")
             app.mainloop()
 
             if (Score.GoBack):
@@ -616,6 +615,7 @@ def RunQuestion(WindowClass, list):
         elif (question.getAxis() == 'culture'):
             app.config(bg='#2E86C1')
             app.questionLabel.config(bg='purple', fg='white')
+            app.progressLabel.config(bg="#2E86C1", fg="white")
             app.mainloop()
 
             if (Score.GoBack):
@@ -636,6 +636,7 @@ def RunQuestion(WindowClass, list):
         elif (question.getAxis() == 'foreign'):
             app.config(bg='#D35400')
             app.questionLabel.config(bg='red', fg='black')
+            app.progressLabel.config(bg="#D35400", fg="white")
             app.mainloop()
 
             if (Score.GoBack):
@@ -660,6 +661,7 @@ def RunQuestion(WindowClass, list):
 
 if __name__ == "__main__":
 
+
     app = OpeningWindow()
     app.mainloop()
 
@@ -672,6 +674,7 @@ if __name__ == "__main__":
     for i in range(len(MegaList)):
         app.sumScore(MegaList[i])
     print("Calculations complete")
+    
 
     app = ResultsWindow()
     app.dataToTextFile()
