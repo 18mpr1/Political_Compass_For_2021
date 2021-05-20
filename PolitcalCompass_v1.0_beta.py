@@ -179,7 +179,7 @@ Q54 = Question(54, "Modern art is an example of our cultural decay", "culture", 
 
 Q55 = Question(55, "Immigration is a net positive to my country", "culture", N, "-")
 
-Q56 = Question(56, "There are foreign and subversive elements in positions of power that seek to sabotage our culture","culture", P, "-") #Based.
+Q56 = Question(56, "There are foreign and subversive elements in positions of power that seek to sabotage our culture","culture", P, "-")
 
 Q57 = Question(57, "Multiculturalism is something to be proud of", "culture", N, "-")
 
