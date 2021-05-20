@@ -1,5 +1,6 @@
 # Caleb Stanton and Matt Rieckenberg
 # Political Compass for 2021 version 1.0 beta
+# 2021
 
 
 import tkinter as tk
@@ -128,7 +129,7 @@ Q30 = Question(30, "Precious metals and cryptocurrencies are more trustworthy th
 
 Q31 = Question(31, "I support regulations enforcing net neutrality", "econ", N, "-")
 
-Q32 = Question(32,"The military, courts and police could be replaced with voluntary legal agreements and private protection agencies","econ", P, "-")
+Q32 = Question(32,"The military, courts and police could be replaced with voluntary"+'\n'+ "legal agreements and private protection agencies","econ", P, "-")
 
 Q33 = Question(33, "It’s a tragedy that art and culture are commodified and cheapened by the capitalist system", "econ",N, "-")
 
@@ -157,7 +158,7 @@ Q43 = Question(43, "War is ultimately harmful to my country and it should be onl
 
 Q44 = Question(44, "The war in Afghanistan is pointless and should be ended soon", "foreign", P, "-")
 
-Q45 = Question(45, "The Iraq War was a mistake", "foreign", P, "-")
+Q45 = Question(45, "The 2003 Iraq War was a mistake", "foreign", P, "-")
 
 Q46 = Question(46, "NATO’s campaigns in Serbia and Libya benefitted the world by removing dictators", "foreign", N, "-")
 
@@ -494,8 +495,7 @@ class QuestionWindow(tk.Tk, Question):
         self.bind("<Escape>", lambda event: self.attributes("-fullscreen", False))
 
         # Labels
-        self.questionLabel = tk.Label(self, text=question.getText(), font=("Georgia", 17, 'bold'), background="#2ECC71",
-                                      foreground="white", width=100, height=2)
+        self.questionLabel = tk.Label(self, text=question.getText(), font=("Georgia", 17, 'bold'), width=100, height=2)
         self.questionLabel.place(relx=0.5, rely=0.1, anchor='center')
         self.progressLabel = tk.Label(self,text=str(question.getNumber())+"/"+str(len(MegaList)),font=("Georgia",20,'bold'))
         self.progressLabel.place(relx=0.9,rely=0.9)
@@ -593,7 +593,7 @@ def RunQuestion(WindowClass, list):
 
         elif (question.getAxis() == 'econ'):
             app.config(bg="#EC7063")
-            app.questionLabel.config(bg='#BA4A00', fg='white')
+            app.questionLabel.config(bg='#BA4A00', fg='#FFF39F')
             app.progressLabel.config(bg="#EC7063", fg="white")
             app.mainloop()
 
@@ -614,7 +614,7 @@ def RunQuestion(WindowClass, list):
 
         elif (question.getAxis() == 'culture'):
             app.config(bg='#2E86C1')
-            app.questionLabel.config(bg='purple', fg='white')
+            app.questionLabel.config(bg='#DF00E9', fg='#87FF80')
             app.progressLabel.config(bg="#2E86C1", fg="white")
             app.mainloop()
 
@@ -635,7 +635,7 @@ def RunQuestion(WindowClass, list):
 
         elif (question.getAxis() == 'foreign'):
             app.config(bg='#D35400')
-            app.questionLabel.config(bg='red', fg='black')
+            app.questionLabel.config(bg='#420082', fg='#FFC796')
             app.progressLabel.config(bg="#D35400", fg="white")
             app.mainloop()
 
